@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BCS21090002_LABTEST.View.Question3"
+              xmlns:vm="clr-namespace:BCS21090002_LABTEST.ViewModel"
+             Title="Question3">
+    <StackLayout>
+        <CollectionView ItemsSource="{Binding Posts}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="{Binding Title}" />
+                        <Label Text="{Binding Body}" />
+                        <Button Text="Edit" Command="{Binding Source={RelativeSource AncestorType={x:Type vm:Question3ViewModel}}, Path=AddOrUpdatePostCommand}" CommandParameter="{Binding .}" />
+                        <Button Text="Delete" Command="{Binding Source={RelativeSource AncestorType={x:Type vm:Question3ViewModel}}, Path=DeletePostCommand}" CommandParameter="{Binding Id}" />
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <Button Text="Add New Post" Command="{Binding AddOrUpdatePostCommand}" />
+
+    </StackLayout>
+</ContentPage>

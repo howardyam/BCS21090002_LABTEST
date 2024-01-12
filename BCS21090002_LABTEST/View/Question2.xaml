@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BCS21090002_LABTEST.View.Question2"
+             xmlns:behaviors="clr-namespace:CommunityToolkit.Maui.Behaviors;assembly=CommunityToolkit.Maui"
+             xmlns:ct="clr-namespace:CommunityToolkit.Maui.Converters;assembly=CommunityToolkit.Maui"
+             Title="Question2">
+    
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="InvalidEntryStyle" TargetType="Entry">
+                <Setter Property="TextColor" Value="Red" />
+            </Style>
+            <Style x:Key="ValidEntryStyle" TargetType="Entry">
+                <Setter Property="TextColor" Value="Default" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <StackLayout Margin="40,0" VerticalOptions="CenterAndExpand">
+        
+        <Entry x:Name="PhoneEntry" Keyboard="Telephone" Placeholder="Phone Number" HorizontalOptions="FillAndExpand">
+            <Entry.Behaviors>
+                <behaviors:TextValidationBehavior
+                InvalidStyle="{StaticResource InvalidEntryStyle}"
+                ValidStyle="{StaticResource ValidEntryStyle}"
+                Flags="ValidateOnValueChanged"
+                RegexPattern="^\d+$"/>
+            </Entry.Behaviors>
+        </Entry>
+        
+        <Label x:Name="InvalidPhoneLabel" Text="Invalid Phone Number" TextColor="Red" IsVisible="False" />
+
+        <Entry x:Name="PasswordEntry" IsPassword="True" Placeholder="Password" HorizontalOptions="FillAndExpand">
+            <Entry.Behaviors>
+                <behaviors:TextValidationBehavior
+                InvalidStyle="{StaticResource InvalidEntryStyle}"
+                ValidStyle="{StaticResource ValidEntryStyle}"
+                Flags="ValidateOnValueChanged"
+                MinimumLength="6"/>
+            </Entry.Behaviors>
+        </Entry>
+        <Label x:Name="InvalidPasswordLabel" Text="Password length should be greater than 5" TextColor="Red" IsVisible="False" />
+
+        <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="Center" Margin="0,15">
+            <CheckBox x:Name="TermsAndConditionsCheckBox" HorizontalOptions="Start"/>
+            <Label x:Name="TermsAndConditionsLabel" Text="I have read the terms and conditions" 
+               TextColor="Black" FontSize="Small" HorizontalOptions="Start" Margin="5">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Source={x:Reference TermsAndConditionsCheckBox}, Path=IsChecked}" />
+                </Label.GestureRecognizers>
+            </Label>
+        </StackLayout>
+
+        <Button x:Name="RegisterButton" Text="Register" FontSize="Medium" CornerRadius="20" VerticalOptions="EndAndExpand" HorizontalOptions="FillAndExpand" IsEnabled="False" >
+            <Button.Triggers>
+                <MultiTrigger TargetType="Button">
+                    <MultiTrigger.Conditions>
+                        <BindingCondition Binding="{Binding Source={x:Reference PhoneEntry}, Path=(behaviors:TextValidationBehavior.IsValid)}" Value="True" />
+                        <BindingCondition Binding="{Binding Source={x:Reference PasswordEntry}, Path=(behaviors:TextValidationBehavior.IsValid)}" Value="True" />
+                        <BindingCondition Binding="{Binding Source={x:Reference TermsAndConditionsCheckBox}, Path=IsChecked}" Value="True" />
+                    </MultiTrigger.Conditions>
+                    <Setter Property="IsEnabled" Value="True" />
+                </MultiTrigger>
+            </Button.Triggers>
+        </Button>
+        
+    </StackLayout>
+
+</ContentPage>
